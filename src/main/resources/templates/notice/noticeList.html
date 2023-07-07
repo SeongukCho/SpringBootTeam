@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>공지 리스트</title>
+    <link rel="stylesheet" href="/css/logincss.css"/>
+    <script type="text/javascript">
+
+        //상세보기 이동
+        function doDetail(seq) {
+            location.href = "/notice/noticeInfo?nSeq=" + seq;
+        }
+
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <a class="navbar-brand" href="/main">홈</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="/user/login">로그인</a></li>
+            <li class="nav-item"><a class="nav-link" href="/user/userRegForm">회원가입</a></li>
+            <li class="nav-item"><a class="nav-link" href="/notice/noticeList">게시판</a></li>
+        </ul>
+    </div>
+</nav>
+
+<hr/>
+<br/>
+<div class="divTable minimalistBlack">
+    <div class="divTableHeading">
+        <div class="divTableRow">
+            <div class="divTableHead">순번</div>
+            <div class="divTableHead">제목</div>
+            <div class="divTableHead">조회수</div>
+            <div class="divTableHead">등록자</div>
+            <div class="divTableHead">등록일</div>
+        </div>
+    </div>
+    <div class="divTableBody">
+
+        <div class="divTableRow" th:each="dto:${rList}">
+            <!--공지글이라면, [공지]표시-->
+            <div class="divTableCell" th:if="${dto.notice_yn=='Y'}">공지</div>
+            <!--공지글이 아니라면, 글번호 보여주기-->
+            <div class="divTableCell" th:unless="${dto.notice_yn=='Y'}">[[${dto.notice_seq}]]</div>
+            <div class="divTableCell"
+                 th:attr="onclick='doDetail(\'' + ${dto.notice_seq} + '\')'">[[${dto.title}]]
+            </div>
+            <div class="divTableCell">[[${dto.read_cnt}]]
+            </div>
+            <div class="divTableCell">[[${dto.user_id}]]
+            </div>
+            <div class="divTableCell">[[${dto.reg_dt}]]
+            </div>
+        </div>
+    </div>
+</div>
+<a href="/notice/noticeReg"><button type="button" >글쓰기</button></a>
+</body>
+</html>
