@@ -15,11 +15,6 @@ import java.util.List;
 @Service
 public class NoticeService implements INoticeService {
 
-    /*
-     * RequiredArgsConstructor 어노테이션으로 생성자를 자동 생성함
-     * noticeMapper 변수에 이미 메모리에 올라간 INoticeMapper 객체를 넣어줌
-     * 예전에는 autowired 어노테이션을 통해 설정했었지만, 이젠 생성자를 통해 객체 주입함
-     */
     private final INoticeMapper noticeMapper;
     @Override
     public List<NoticeDTO> getNoticeList() throws Exception {

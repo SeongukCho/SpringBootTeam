@@ -46,5 +46,6 @@
         DELETE FROM NOTICE
         WHERE
             NOTICE_SEQ = #{notice_seq}
+
     </delete>
 </mapper>

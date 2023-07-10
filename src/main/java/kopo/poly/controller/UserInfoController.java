@@ -65,36 +65,36 @@ public class UserInfoController {
             pDTO.setAddr1(addr1);
             pDTO.setAddr2(addr2);
 
-            res = userInfoService.insertUserInfo(pDTO);
+                res = userInfoService.insertUserInfo(pDTO);
 
-            log.info("회원가입 결과(res) : " + res);
+                log.info("회원가입 결과(res) : " + res);
 
-            if (res == 1) {
-                msg = "회원가입되었습니다.";
-                url = "/main";
-            } else {
-                msg = "오류로 인해 회원가입이 실패하였습니다.";
+                if (res == 1) {
+                    msg = "회원가입되었습니다.";
+                    url = "/main";
+                } else {
+                    msg = "오류로 인해 회원가입이 실패하였습니다.";
+                    url = "/user/userRegForm";
+                }
+            } catch(DuplicateKeyException e){
+                msg = "이미 가입된 아이디입니다. 다른 아이디로 변경 후 다시 시도해주세요.";
                 url = "/user/userRegForm";
+                log.info(e.toString());
+                e.printStackTrace();
+            } catch(Exception e){
+
+                msg = "시스템 오류로 실패하였습니다. 다시 시도해주세요.";
+                url = "/user/userRegForm";
+                log.info(e.toString());
+                e.printStackTrace();
+            } finally{
+                log.info("출력할 메시지 : " + msg);
+                log.info("이동할 경로 : " + url);
+                modelMap.addAttribute("msg", msg);
+                modelMap.addAttribute("url", url);
+
+                log.info(this.getClass().getName() + ".insertUserInfo End!");
             }
-        } catch (DuplicateKeyException e) {
-            msg = "이미 가입된 아이디입니다. 다른 아이디로 변경 후 다시 시도해주세요.";
-            url = "/user/userRegForm";
-            log.info(e.toString());
-            e.printStackTrace();
-        } catch (Exception e) {
-
-            msg = "시스템 오류로 실패하였습니다. 다시 시도해주세요.";
-            url = "/user/userRegForm";
-            log.info(e.toString());
-            e.printStackTrace();
-        } finally {
-            log.info("출력할 메시지 : " + msg);
-            log.info("이동할 경로 : " + url);
-            modelMap.addAttribute("msg", msg);
-            modelMap.addAttribute("url", url);
-
-            log.info(this.getClass().getName() + ".insertUserInfo End!");
-        }
 
         return "/redirect";
     }
